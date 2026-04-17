@@ -12,7 +12,7 @@ body {
     color: var(--soft-white);
     direction: rtl;
     background: var(--dark-black);
-    background-image: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('5985325600777899390_121.jpg'); /* حط خلفية هنا */
+    background-image: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('5985325600777899418_120.jpg'); /* حط خلفية هنا */
     background-size: cover;
     background-attachment: fixed;
 }
@@ -75,16 +75,34 @@ body {
 .old-price { text-decoration: line-through; color: #666; font-size: 14px; margin-left: 8px; }
 /* شريط الأقسام بيتحرك لليمين والشمال بالصابع */
 .category-nav {
-    display: flex;
-    overflow-x: auto;
-    white-space: nowrap;
-    gap: 12px;
-    padding: 10px 20px;
-    scrollbar-width: none; /* إخفاء السكرول في فايرفوكس */
+    display: grid; /* تفعيل نظام الشبكة */
+    grid-template-columns: 1fr 1fr; /* تقسيم الصفحة لعمودين متساويين */
+    gap: 12px; /* المسافة بين الأزرار */
+    padding: 20px;
+    max-width: 500px; /* عشان الأزرار متبقاش عريضة زيادة عن اللزوم */
+    margin: 0 auto; /* سنترة الحاوية في نص الشاشة */
 }
 
-.category-nav::-webkit-scrollbar {
-    display: none; /* إخفاء السكرول في كروم */
+.nav-item {
+    background: rgba(255, 0, 0, 0.1);
+    border: 1px solid var(--kapnos-red);
+    padding: 12px 10px; /* تكبير المسافة جوه الزرار */
+    border-radius: 8px; /* شكل الحواف */
+    cursor: pointer;
+    transition: 0.3s;
+    color: white;
+    text-align: center; /* سنترة النص جوه الزرار */
+    font-size: 14px; /* حجم الخط */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 50px; /* ضمان إن كل الأزرار طولها واحد */
+}
+
+/* حذف خواص السكرول القديمة عشان متبوظش الشكل الجديد */
+.category-nav {
+    overflow-x: hidden !important; 
+    white-space: normal !important; 
 }
 
 .nav-item {
@@ -114,7 +132,66 @@ optgroup {
     color: #ff0000;
     font-weight: bold;
 }
+.btn-back {
+    background: #000; /* أسود */
+    color: #ff0000; /* أحمر */
+    border: 2px solid #ff0000;
+    padding: 10px 25px;
+    font-family: 'Cairo', sans-serif;
+    font-weight: bold;
+    border-radius: 30px;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: 0.4s;
+    /* تأثير التوهج (Glow) */
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.4), inset 0 0 5px rgba(255, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
 
+.btn-back:hover {
+    background: #ff0000;
+    color: #fff;
+    box-shadow: 0 0 25px #ff0000; /* توهج أقوى عند الوقوف عليه */
+    transform: scale(1.05);
+}
+
+/* تنسيق حاوية البحث */
+.search-wrapper {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+#searchInput {
+    width: 90%;
+    max-width: 150px;
+    background: #000; /* خلفية سوداء */
+    border: 2px solid #ff0000; /* إطار أحمر */
+    padding: 12px 20px;
+    border-radius: 50px; /* شكل بيضاوي شيك */
+    color: #fff;
+    font-family: 'Cairo', sans-serif;
+    outline: none;
+    font-size: 16px;
+    transition: all 0.4s ease-in-out;
+    /* التوهج الأساسي */
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+}
+
+/* تأثير التوهج القوي لما تضغط عليه (Focus) */
+#searchInput:focus {
+    box-shadow: 0 0 20px #ff0000, inset 0 0 5px #ff0000;
+    transform: scale(1.02); /* تكبير بسيط جداً */
+    border-color: #fff; /* الإطار يقلب أبيض عشان ينطق مع الأحمر */
+}
+
+/* تغيير لون الكلام المكتوب جوه الخانة (Placeholder) */
+#searchInput::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 14px;
+}
 
 @media screen and (max-width: 600px) {
     
