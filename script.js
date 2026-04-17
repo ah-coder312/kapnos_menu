@@ -47,7 +47,8 @@ function showCategory(cat, element) {
         element.classList.add('active');
     }
 
-    const filtered = menuData.filter(p => p.category === cat);
+  // ابحث عن سطر الفلترة في ملف script.js وعدله كدة:
+      const filtered = menuData.filter(p => p.category === cat && p.is_hidden !== true);
     filtered.forEach(p => {
         // لو فيه خصم اعرض السعر القديم
         const priceHTML = p.discount_price 
