@@ -57,7 +57,12 @@
         <div class="admin-header">
             <h1>لوحة تحكم كابنوس</h1>
             <p style="color: #888;">إدارة الأصناف، الأسعار، والخصومات</p>
-        </div>
+        </div> 
+        <div style="margin: 20px 0;">
+    <input type="text" id="adminSearch" placeholder="🔍 ابحث عن صنف بالاسم..." 
+           onkeyup="filterAdminTable()" 
+           style="width: 100%; padding: 12px; border-radius: 8px; background: #222; border: 1px solid #ff0000; color: #fff; font-family: 'Cairo';">
+</div>
 
         <div class="add-form">
             <input type="text" id="newName" placeholder="اسم الصنف الجديد">
@@ -138,43 +143,47 @@
                 errMsg.style.display = 'block';
             }
         }
+      // دالة التحميل المعدلة لحفظ البيانات للبحث
+async function loadData() {
+    const { data, error } = await _supabase.from('products').select('*').order('id', {ascending: false});
+    if(error) return;
 
-        // تحميل كل البيانات من سوبابيس
-        async function loadData() {
-            const { data, error } = await _supabase.from('products').select('*').order('id', {ascending: false});
-            if(error) { console.error(error); return; }
+    window.allProducts = data; // حفظ نسخة للبحث
+    renderTable(data);
+}
 
-            const tbody = document.getElementById('table-body');
-            tbody.innerHTML = data.map(item => `
-                <tr class="${item.is_hidden ? 'row-is-hidden' : ''}">
-                    <td><input class="input-edit" value="${item.name}" onchange="update(${item.id}, 'name', this.value)"></td>
-                    <td><input class="input-edit" type="number" value="${item.price}" onchange="update(${item.id}, 'price', this.value)"></td>
-                    <td><input class="input-edit" type="number" value="${item.discount_price || ''}" placeholder="-" onchange="update(${item.id}, 'discount_price', this.value)"></td>
-                    <td><input class="input-edit badge-style" value="${item.badge || ''}" placeholder="Badge" onchange="update(${item.id}, 'badge', this.value)"></td>
-                    <td style="font-size: 0.8rem; color: #888;">${item.category}</td>
-                    <td>
-                        <button class="btn-status ${item.is_hidden ? 'btn-hidden' : 'btn-visible'}" onclick="toggleHide(${item.id}, ${item.is_hidden})">
-                            ${item.is_hidden ? '🚫 مخفي' : '👁️ ظاهر'}
-                        </button>
-                    </td>
-                    <td><button class="del-icon" onclick="del(${item.id})">🗑️</button></td>
-                </tr>
-            `).join('');
-        }
+// دالة عرض الجدول
+function renderTable(items) {
+    const tbody = document.getElementById('table-body');
+    tbody.innerHTML = items.map(item => `
+        <tr class="${item.is_hidden ? 'row-is-hidden' : ''}">
+            <td><input class="input-edit" value="${item.name}" onchange="update(${item.id}, 'name', this.value)"></td>
+            <td><input class="input-edit" type="number" value="${item.price}" onchange="update(${item.id}, 'price', this.value)"></td>
+            <td><input class="input-edit" type="number" value="${item.discount_price || ''}" onchange="update(${item.id}, 'discount_price', this.value)"></td>
+            <td><input class="input-edit badge-style" value="${item.badge || ''}" onchange="update(${item.id}, 'badge', this.value)"></td>
+            <td style="font-size: 0.7rem; color: #666;">${item.category}</td>
+            <td>
+                <button class="btn-status ${item.is_hidden ? 'btn-hidden' : 'btn-visible'}" 
+                        onclick="toggleHide(${item.id}, ${item.is_hidden})">
+                    ${item.is_hidden ? '🚫 مخفي' : '👁️ ظاهر'}
+                </button>
+            </td>
+            <td><button class="del-icon" onclick="del(${item.id})">🗑️</button></td>
+        </tr>
+    `).join('');
+}
 
-        // دالة التحديث التلقائي لأي خانة
-        async function update(id, col, val) {
-            const updates = {}; 
-            updates[col] = (val === "" || val === null) ? null : val;
-            const { error } = await _supabase.from('products').update(updates).eq('id', id);
-            if(error) alert("حدث خطأ في التحديث");
-        }
+// دالة البحث
+function filterAdminTable() {
+    const term = document.getElementById('adminSearch').value.toLowerCase();
+    const filtered = window.allProducts.filter(p => p.name.toLowerCase().includes(term));
+    renderTable(filtered);
+}
 
-        // إخفاء وإظهار المنتج
-       async function toggleHide(id, currentStatus) {
-    // لو القيمة جاية NULL هنعتبرها false (يعني ظاهر)
-    const safeStatus = (currentStatus === null || currentStatus === undefined) ? false : currentStatus;
-    const nextStatus = !safeStatus;
+// دالة الإخفاء اللي كانت معلقة (اتصلحت)
+async function toggleHide(id, currentStatus) {
+    // التأكد من تحويل الحالة بشكل سليم حتى لو كانت null
+    const nextStatus = currentStatus === true ? false : true;
 
     const { error } = await _supabase
         .from('products')
@@ -182,11 +191,22 @@
         .eq('id', id);
 
     if (error) {
-        alert("فيه مشكلة في سوبابيس: " + error.message);
+        alert("فشل التعديل: " + error.message);
     } else {
-        loadData(); // عشان يغير الكلمة لـ "مخفي" واللون يبهت فوراً
+        loadData(); // إعادة تحميل البيانات لتعكس التغيير فوراً
     }
 }
+
+// دالة البحث (Search)
+function filterAdminTable() {
+    const query = document.getElementById('adminSearch').value.toLowerCase();
+    const filtered = window.allProducts.filter(p => 
+        p.name.toLowerCase().includes(query) || 
+        p.category.toLowerCase().includes(query)
+    );
+    renderTable(filtered);
+}
+
 
         // إضافة صنف جديد
         async function addNewItem() {
