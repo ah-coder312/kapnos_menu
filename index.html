@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kapnos Cafe | كابنوس</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;900&display=swap" rel="stylesheet">
+    <link rel="preload" as="image" href="main-bg.jpg">
+</head>
+<body>
+
+    <div class="main-overlay"></div>
+
+    <header class="kapnos-header">
+        <div class="logo-area">
+            <div class="logo-circle">K</div>
+            <h1>KAPNOS </h1>
+        </div>
+    </header>
+
+    <main>
+        <section class="category-nav">
+    <div class="nav-item active" onclick="showCategory('coffee', this)">القهوة</div>
+    <div class="nav-item" onclick="showCategory('tea', this)">الشاي</div>
+    <div class="nav-item" onclick="showCategory('hot', this)">ساخن</div>
+    <div class="nav-item" onclick="showCategory('cold', this)">بارد</div>
+    <div class="nav-item" onclick="showCategory('fresh', this)">عصائر</div>
+    <div class="nav-item" onclick="showCategory('grill', this)">المشاوي</div>
+    <div class="nav-item" onclick="showCategory('trays', this)">الصواني</div>
+    <div class="nav-item" onclick="showCategory('stew', this)">الطواجن</div>
+    <div class="nav-item" onclick="showCategory('sandwiches', this)">سندوتشات</div>
+    <div class="nav-item" onclick="showCategory('sweets', this)">حلويات</div>
+    </section> 
+    
+        <div id="products-container" class="products-list"></div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script.js"></script>
+</body>
+</html>

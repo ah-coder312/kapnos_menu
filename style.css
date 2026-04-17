@@ -1,0 +1,194 @@
+:root {
+    --kapnos-red: #ff0000;
+    --dark-black: #0a0a0a;
+    --soft-white: #eeeeee;
+    --glass-red: rgba(255, 0, 0, 0.05);
+    --border-red: rgba(255, 0, 0, 0.3);
+}
+
+body {
+    margin: 0;
+    font-family: 'Cairo', sans-serif;
+    color: var(--soft-white);
+    direction: rtl;
+    background: var(--dark-black);
+    background-image: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('5985325600777899390_121.jpg'); /* حط خلفية هنا */
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.kapnos-header {
+    text-align: center;
+    padding: 40px 20px;
+    background: linear-gradient(to bottom, rgba(0,0,0,1), transparent);
+}
+
+.logo-circle {
+    width: 80px; height: 80px;
+    background: var(--kapnos-red);
+    color: white;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 40px; font-weight: 900;
+    margin: 0 auto 15px;
+    box-shadow: 0 0 25px rgba(255, 0, 0, 0.5);
+    border: 2px solid #fff;
+}
+
+.kapnos-header h1 {
+    letter-spacing: 5px;
+    font-size: 28px;
+    color: #fff;
+    text-shadow: 0 0 10px var(--kapnos-red);
+}
+
+.category-nav { display: flex; overflow-x: auto; gap: 10px; padding: 20px; justify-content: center; }
+
+.nav-item {
+    background: transparent; padding: 8px 18px;
+    border-radius: 5px; border: 1px solid var(--border-red);
+    cursor: pointer; color: #fff; transition: 0.3s;
+}
+
+.nav-item.active {
+    background: var(--kapnos-red);
+    border-color: var(--kapnos-red);
+    font-weight: bold;
+}
+
+.item-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    margin: 10px auto;
+    max-width: 500px;
+    background: var(--glass-red);
+    border-right: 3px solid var(--kapnos-red);
+    backdrop-filter: blur(5px);
+}
+
+.item-name { font-size: 18px; font-weight: 600; }
+.item-desc { display: block; font-size: 12px; color: #aaa; margin-top: 4px; }
+
+.item-price { color: var(--kapnos-red); font-weight: bold; font-size: 18px; }
+.old-price { text-decoration: line-through; color: #666; font-size: 14px; margin-left: 8px; }
+/* شريط الأقسام بيتحرك لليمين والشمال بالصابع */
+.category-nav {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    gap: 12px;
+    padding: 10px 20px;
+    scrollbar-width: none; /* إخفاء السكرول في فايرفوكس */
+}
+
+.category-nav::-webkit-scrollbar {
+    display: none; /* إخفاء السكرول في كروم */
+}
+
+.nav-item {
+    background: rgba(255, 0, 0, 0.1);
+    border: 1px solid var(--kapnos-red);
+    padding: 8px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+    color: white;
+}
+
+.nav-item.active {
+    background: var(--kapnos-red);
+    box-shadow: 0 0 10px var(--kapnos-red);
+} 
+select {
+    cursor: pointer;
+    background: #222;
+    color: #fff;
+    border: 1px solid #ff0000;
+    padding: 10px;
+    font-family: 'Cairo', sans-serif;
+}
+optgroup {
+    background: #000;
+    color: #ff0000;
+    font-weight: bold;
+}
+
+
+@media screen and (max-width: 600px) {
+    
+   
+    .glass-header {
+        padding: 10px;
+    }
+    .glass-header h1 {
+        font-size: 18px;
+    }
+
+   
+    .category-nav {
+        gap: 8px;
+        padding: 10px 5px;
+        -webkit-overflow-scrolling: touch; 
+    }
+    .nav-item {
+        padding: 6px 14px;
+        font-size: 12px;
+    }
+
+ 
+    .mini-card {
+        width: 92%; 
+        max-width: none;
+        padding: 8px;
+        gap: 8px;
+    }
+
+    .mini-card img {
+        width: 70px;
+        height: 70px;
+    }
+
+    .product-info h3 {
+        font-size: 14px;
+        margin-bottom: 2px;
+    }
+
+   
+    .glass-select {
+        height: 30px;
+        font-size: 12px;
+    }
+
+    .add-btn {
+        padding: 8px 12px;
+        font-size: 11px;
+    }
+
+  
+    .sidebar-cart {
+        width: 85%;
+    }
+
+
+    .cart-floating-btn {
+        width: 50px;
+        height: 50px;
+        bottom: 15px;
+        right: 15px;
+    }
+
+    .mini-toast {
+        width: auto;
+        left: 20px;
+        right: 20px;
+        text-align: center;
+        bottom: 80px;
+    }
+}
+
+
+.category-nav::-webkit-scrollbar {
+    display: none;
+}
