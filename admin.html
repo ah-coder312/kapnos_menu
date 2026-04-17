@@ -114,11 +114,12 @@
 
     <script>
         // إعدادات سوبابيس (استخدم بياناتك اللي في الصور)
-        const SB_URL = "YOUR_SUPABASE_URL";
-        const SB_KEY = "YOUR_SUPABASE_KEY";
-        const _supabase = supabase.createClient(SB_URL, SB_KEY);
+            const SUPABASE_URL = 'https://ipyboqsodseqzkgqxjev.supabase.co'; 
+           const SUPABASE_KEY = 'sb_publishable_xZyMpi5Mfck4k-eQGSfteg_DkyH4jHN'; 
+          const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        const ADMIN_PASS = "KAPNOS2026"; // غير الباسورد من هنا
+
+        const ADMIN_PASS = "12345"; // غير الباسورد من هنا
 
         function login() {
             const pass = document.getElementById('pass-input').value;
