@@ -20,18 +20,29 @@
     </header>
 
     <main>
-        <section class="category-nav">
+
+        <input type="text" id="searchInput" placeholder="ابحث هنا...">
+
+<div id="back-container" style="display: none; text-align: right; padding: 10px;">
+    <button onclick="goBack()" class="btn-back"> 
+        &#10094; </button>
+</div>
+       <section class="category-nav">
     <div class="nav-item active" onclick="showCategory('coffee', this)">القهوة</div>
     <div class="nav-item" onclick="showCategory('tea', this)">الشاي</div>
-    <div class="nav-item" onclick="showCategory('hot', this)">ساخن</div>
-    <div class="nav-item" onclick="showCategory('cold', this)">بارد</div>
+    
+    <div class="nav-item" onclick="showCategory('hot', this)">مشروبات ساخنة</div>
+    <div class="nav-item" onclick="showCategory('cold', this)">مشروبات باردة</div>
+    
     <div class="nav-item" onclick="showCategory('fresh', this)">عصائر</div>
+    <div class="nav-item" onclick="showCategory('sweets', this)">حلويات</div>
+    
     <div class="nav-item" onclick="showCategory('grill', this)">المشاوي</div>
     <div class="nav-item" onclick="showCategory('trays', this)">الصواني</div>
+    
     <div class="nav-item" onclick="showCategory('stew', this)">الطواجن</div>
     <div class="nav-item" onclick="showCategory('sandwiches', this)">سندوتشات</div>
-    <div class="nav-item" onclick="showCategory('sweets', this)">حلويات</div>
-    </section> 
+</section> 
     
         <div id="products-container" class="products-list"></div>
     </main>
