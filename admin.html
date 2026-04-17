@@ -122,7 +122,7 @@
             }
         }
 
-        // دالة العرض والبحث مدموجة لسهولة التحكم
+    
         async function loadData() {
             const { data, error } = await _supabase.from('products').select('*').order('id', {ascending: false});
             if(error) return console.error(error);
@@ -156,7 +156,7 @@
     const category = document.getElementById('newCat').value;
     const badge = document.getElementById('newBadge')?.value || null;
     
-    // ركز هنا: استخدمنا الاسم الغلط اللي في قاعدة بياناتك عشان يشتغل
+
     const discount = document.getElementById('newDisc')?.value || null;
 
     const { error } = await _supabase
