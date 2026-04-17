@@ -11,11 +11,10 @@ async function loadMenu() {
     } else {
         menuData = data;
         
-        // اختيار اختياري: لو عاوز تمسح الـ Active من أول زرار في البداية
         document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
     }
 }
-// جوه دالة عرض المنتجات
+
 function createItemHTML(item) {
     const hasDiscount = item.discount_price && item.discount_price < item.price;
     const badgeHTML = item.badge ? `<span class="badge">${item.badge}</span>` : '';
@@ -40,16 +39,16 @@ function showCategory(cat, element) {
     const categoryNav = document.querySelector('.category-nav');
     const backContainer = document.getElementById('back-container');
 
-    // 1. مسح أي منتجات قديمة
+
     container.innerHTML = "";
 
-    // 2. إخفاء شبكة الأقسام عشان المنتجات تظهر لوحدها
+    
     if (categoryNav) categoryNav.style.display = 'none';
     
-    // 3. إظهار حاوية زرار الباك
+
     if (backContainer) backContainer.style.display = 'block';
 
-    // 4. فلترة المنتجات
+
     const filtered = menuData.filter(p => p.category === cat && p.is_hidden !== true);
 
     if (filtered.length === 0) {
@@ -57,7 +56,7 @@ function showCategory(cat, element) {
     }
 
     filtered.forEach(p => {
-        // ركز هنا: لو لسه مصلحتش اسم العمود في سوبابيس خليه disconunt_price بالـ n
+        
         const priceHTML = p.discount_price 
             ? `<span class="old-price">${p.price}</span><span>${p.discount_price} EGP</span>`
             : `<span>${p.price} EGP</span>`;
@@ -75,7 +74,7 @@ function showCategory(cat, element) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// دالة الرجوع (دي اللي بتشغل زرار الباك)
+
 function goBack() {
     document.querySelector('.category-nav').style.display = 'grid'; // رجوع الأقسام
     document.getElementById('back-container').style.display = 'none'; // إخفاء الزرار
@@ -88,26 +87,26 @@ document.getElementById('searchInput').addEventListener('input', (e) => {
     const nav = document.querySelector('.category-nav');
     const backBtn = document.getElementById('back-container');
 
-    // لو الخانة مش فاضية
+      
     if (term.trim() !== "") {
-        // 1. إخفاء الأقسام وإظهار زرار الباك والنتائج
+       
         if (nav) nav.style.display = 'none';
         if (backBtn) backBtn.style.display = 'block';
 
-        // 2. الفلترة (البحث بالاسم)
+       
         const filtered = menuData.filter(p => 
             p.name.toLowerCase().includes(term) && p.is_hidden !== true
         );
 
-        // 3. عرض النتائج فوراً
+      
         displayResults(filtered); 
     } else {
-        // لو مسح السيرش نرجع للأقسام
+       
         goBack();
     }
 });
 
-// دالة مساعدة لعرض النتائج عشان ميتكررش الكود
+
 function displayResults(items) {
     const container = document.getElementById('products-container');
     container.innerHTML = "";
@@ -118,7 +117,7 @@ function displayResults(items) {
     }
 
     items.forEach(p => {
-        // ركز هنا: لو لسه مصلحتش اسم العمود في سوبابيس خليه disconunt_price
+      
         const priceHTML = p.discount_price 
             ? `<span class="old-price">${p.price}</span><span>${p.discount_price} EGP</span>`
             : `<span>${p.price} EGP</span>`;
