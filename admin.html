@@ -153,18 +153,28 @@ async function loadData() {
 }
 
 // دالة عرض الجدول
-function renderTable(items) {
+async function loadData() {
+    const { data, error } = await _supabase.from('products').select('*').order('id', {ascending: false});
+    if(error) { console.error(error); return; }
+
     const tbody = document.getElementById('table-body');
-    tbody.innerHTML = items.map(item => `
+    const searchTerm = document.getElementById('adminSearch')?.value.toLowerCase() || ""; // كلمة البحث
+
+    // فلترة البيانات بناءً على البحث قبل العرض
+    const filteredData = data.filter(item => 
+        item.name.toLowerCase().includes(searchTerm) || 
+        item.category.toLowerCase().includes(searchTerm)
+    );
+
+    tbody.innerHTML = filteredData.map(item => `
         <tr class="${item.is_hidden ? 'row-is-hidden' : ''}">
             <td><input class="input-edit" value="${item.name}" onchange="update(${item.id}, 'name', this.value)"></td>
             <td><input class="input-edit" type="number" value="${item.price}" onchange="update(${item.id}, 'price', this.value)"></td>
-            <td><input class="input-edit" type="number" value="${item.discount_price || ''}" onchange="update(${item.id}, 'discount_price', this.value)"></td>
-            <td><input class="input-edit badge-style" value="${item.badge || ''}" onchange="update(${item.id}, 'badge', this.value)"></td>
-            <td style="font-size: 0.7rem; color: #666;">${item.category}</td>
+            <td><input class="input-edit" type="number" value="${item.discount_price || ''}" placeholder="-" onchange="update(${item.id}, 'discount_price', this.value)"></td>
+            <td><input class="input-edit badge-style" value="${item.badge || ''}" placeholder="Badge" onchange="update(${item.id}, 'badge', this.value)"></td>
+            <td style="font-size: 0.8rem; color: #888;">${item.category}</td>
             <td>
-                <button class="btn-status ${item.is_hidden ? 'btn-hidden' : 'btn-visible'}" 
-                        onclick="toggleHide(${item.id}, ${item.is_hidden})">
+                <button class="btn-status ${item.is_hidden ? 'btn-hidden' : 'btn-visible'}" onclick="toggleHide(${item.id}, ${item.is_hidden})">
                     ${item.is_hidden ? '🚫 مخفي' : '👁️ ظاهر'}
                 </button>
             </td>
