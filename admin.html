@@ -150,29 +150,34 @@
                 </tr>
             `).join('');
         }
-
         async function addItem() {
-            const name = document.getElementById('newName').value;
-            const price = parseFloat(document.getElementById('newPrice').value);
-            const category = document.getElementById('newCat').value;
-            const badge = document.getElementById('newBadge').value || null;
-            const disc = document.getElementById('newDisc').value ? parseFloat(document.getElementById('newDisc').value) : null;
+    const name = document.getElementById('newName').value;
+    const price = parseFloat(document.getElementById('newPrice').value);
+    const category = document.getElementById('newCat').value;
+    const badge = document.getElementById('newBadge')?.value || null;
+    
+    // ركز هنا: استخدمنا الاسم الغلط اللي في قاعدة بياناتك عشان يشتغل
+    const discount = document.getElementById('newDisc')?.value || null;
 
-            if(!name || !price) return alert("اكتب الاسم والسعر يا هندسة!");
+    const { error } = await _supabase
+        .from('products')
+        .insert([{ 
+            name: name, 
+            price: price, 
+            category: category,
+            badge: badge,
+            disconunt_price: discount, // عدلنا الاسم هنا لـ disconunt
+            is_hidden: false 
+        }]);
 
-            const { error } = await _supabase.from('products').insert([{ 
-                name: name, price: price, category: category, badge: badge, discount_price: disc, is_hidden: false 
-            }]);
+    if (error) {
+        alert("فشل بسبب: " + error.message);
+    } else {
+        alert("تمت الإضافة بنجاح! 🎉");
+        loadData();
+    }
+}
 
-            if (error) {
-                alert("فشل بسبب: " + error.message);
-            } else {
-                alert("تمت الإضافة بنجاح! 🎉");
-                document.getElementById('newName').value = "";
-                document.getElementById('newPrice').value = "";
-                loadData();
-            }
-        }
 
         async function update(id, field, value) {
             const { error } = await _supabase.from('products').update({ [field]: value }).eq('id', id);
