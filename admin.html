@@ -171,10 +171,22 @@
         }
 
         // إخفاء وإظهار المنتج
-        async function toggleHide(id, status) {
-            await _supabase.from('products').update({ is_hidden: !status }).eq('id', id);
-            loadData();
-        }
+       async function toggleHide(id, currentStatus) {
+    // لو القيمة جاية NULL هنعتبرها false (يعني ظاهر)
+    const safeStatus = (currentStatus === null || currentStatus === undefined) ? false : currentStatus;
+    const nextStatus = !safeStatus;
+
+    const { error } = await _supabase
+        .from('products')
+        .update({ is_hidden: nextStatus })
+        .eq('id', id);
+
+    if (error) {
+        alert("فيه مشكلة في سوبابيس: " + error.message);
+    } else {
+        loadData(); // عشان يغير الكلمة لـ "مخفي" واللون يبهت فوراً
+    }
+}
 
         // إضافة صنف جديد
         async function addNewItem() {
