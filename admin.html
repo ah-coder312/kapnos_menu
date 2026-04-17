@@ -114,23 +114,31 @@
 
     <script>
         // إعدادات سوبابيس (استخدم بياناتك اللي في الصور)
-            const SUPABASE_URL = 'https://ipyboqsodseqzkgqxjev.supabase.co'; 
+           const SUPABASE_URL = 'https://ipyboqsodseqzkgqxjev.supabase.co'; 
            const SUPABASE_KEY = 'sb_publishable_xZyMpi5Mfck4k-eQGSfteg_DkyH4jHN'; 
           const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 
-        const ADMIN_PASS = "12345"; // غير الباسورد من هنا
+        const ADMIN_PASS = "12345";
+         async function checkLogin(event) {
+    if(event) event.preventDefault(); // منع الصفحة من الريفرش 🛑
 
-        function login() {
-            const pass = document.getElementById('pass-input').value;
-            if(pass === ADMIN_PASS) {
-                document.getElementById('login-overlay').style.display = 'none';
-                document.getElementById('admin-content').style.display = 'block';
-                loadData();
-            } else {
-                document.getElementById('err').style.display = 'block';
-            }
-        }
+    const passInput = document.getElementById('admin-pass').value;
+    const loginScreen = document.getElementById('login-screen');
+    const adminContent = document.getElementById('admin-content');
+
+    if (passInput === ADMIN_PASSWORD) {
+        // لو الباسورد صح: إخفاء شاشة الدخول وإظهار لوحة التحكم
+        loginScreen.style.display = 'none';
+        adminContent.style.display = 'block';
+        
+        // تشغيل جلب البيانات من سوبابيس
+        fetchAdminData(); 
+    } else {
+        alert("الباسورد غلط يا هندسة! حاول تاني.");
+    }
+}
+
 
         async function loadData() {
             const { data, error } = await _supabase.from('products').select('*').order('id', {ascending: false});
